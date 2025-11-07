@@ -97,6 +97,60 @@ docs: atualiza instruções de execução no README
 ├── reports/              # Relatórios finais em formato .md e .pdf
 └── README.md             # Documento principal com instruções do projeto
 ```
+## 🔬 Análise da Frente 1: Documentação (README.md)
+
+**Responsável:** (Miguel Lucas Santana Freire)
+
+### 🎯 Objetivo
+Analisar a documentação textual do projeto (`README.md`) para identificar padrões de arquitetura.
+
+---
+
+### 🧠 Modelo Utilizado
+**Modelo:** `zero-shot-classification`  
+**Base:** `facebook/bart-large-mnli`
+
+
+### 💡 Por que este modelo?
+Dentre os testados, escolhemos o *Zero-Shot Classification* porque ele nos permite classificar um texto usando **rótulos definidos manualmente**, sem a necessidade de treinar um modelo do zero.  
+Isso é ideal para projetos de análise arquitetural com poucos exemplos anotados.
+
+### ⚙️ Metodologia
+Devido à limitação da *janela de contexto* dos modelos (que não conseguem ler documentos muito longos, cerca de **1024 tokens**), **não analisamos o `README.md` inteiro**.  
+Em vez disso, foram selecionadas manualmente as seções com **maior densidade de informação arquitetural**:
+
+- **“Why LangExtract?”** – descreve o pipeline do sistema.  
+- **“Adding Custom Model Providers”** – explica o mecanismo de plugins.
+
+O script executado foi:
+
+```bash
+python scripts/analise_frente_1.py
+```
+
+Foram definidos 5 rótulos candidatos para classificação.
+
+### 📊 Resultado da Análise (Frente 1)
+
+O modelo retornou as seguintes pontuações de confiança:
+
+### 📊 Resultado da Análise
+
+O modelo retornou as seguintes pontuações de confiança:
+
+```plaintext
+Texto Analisado: '
+Why LangExtract?
+1.  Precise Source Grounding: Ma...
+----------------------------------------
+  plugin architecture              | 60.83%
+  layered architecture             | 19.85%
+  component-based system           | 11.56%
+  pipe-and-filter architecture     | 04.23%
+  MVC architecture                 | 03.53%
+----------------------------------------
+
+```
 
 ## 🧠 Observações Finais
 

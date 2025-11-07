@@ -1,16 +1,14 @@
-# ----------------------------------------------------
-# Análise da Frente 1: Documentação (README.md)
-# Modelo: Zero-Shot Classification
-# ----------------------------------------------------
-
 from transformers import pipeline
 import textwrap
+import os
 
 def analisar_documentacao():
-    print("Iniciando Análise da Frente 1: Documentação...")
+    print("Iniciando Análise da Documentação (Readme)")
     print("-" * 40)
 
-    # texto do README.md que será analisado (seções "Why LangExtract?" e "Adding Custom Model Providers")
+    caminho_script = os.path.dirname(__file__)
+    caminho_projeto = os.path.abspath(os.path.join(caminho_script, '..'))
+    caminho_output = os.path.join(caminho_projeto, 'output', 'resultado_frente_observacao.txt')
 
     texto_para_analisar = """
     Why LangExtract?
@@ -38,22 +36,31 @@ def analisar_documentacao():
         "MVC architecture"
     ]
 
-    print("Carregando modelo 'facebook/bart-large-mnli'")
+    print(f"Carregando modelo 'facebook/bart-large-mnli'...")
+    classificador = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
-    classificador = pipeline("zero-shot-classification",
-                             model="facebook/bart-large-mnli")
+    resultado = classificador(textwrap.dedent(texto_para_analisar), candidate_labels=rotulos_candidatos)
 
-
-    resultado = classificador(textwrap.dedent(texto_para_analisar),
-                              candidate_labels=rotulos_candidatos)
-
-    print("\n--- RESULTADO DA ANÁLISE (FRENTE 1) ---")
-    print(f"Texto Analisado: '{resultado['sequence'][:50]}...'")
-    print("-" * 40)
+    linhas_resultado = ["RESULTADO DA ANÁLISE (DOCUMENTAÇÃO)", f"Modelo Utilizado: {classificador.model.name_or_path}"]
 
     for rotulo, pontuacao in zip(resultado['labels'], resultado['scores']):
         percentual = pontuacao * 100
-        print(f"  {rotulo:<30} | {percentual:05.2f}%")
+        linha = f"  {rotulo:<30} | {percentual:05.2f}%"
+        linhas_resultado.append(linha)
+
+
+    output_texto = "\n".join(linhas_resultado)
+
+    try:
+        with open(caminho_output, 'w', encoding='utf-8') as f:
+            f.write(output_texto)
+
+        print(f"Resultado salvo em: {caminho_output}")
+        print("\nConteúdo do Resultado:")
+        print(output_texto)
+
+    except Exception as e:
+        print(f"\nErro ao salvar arquivo: {e}")
 
 
 if __name__ == "__main__":
