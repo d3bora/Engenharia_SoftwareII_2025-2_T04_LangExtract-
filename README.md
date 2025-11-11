@@ -51,7 +51,7 @@ Os scripts de cada frente estão localizados na pasta `/scripts`.
 python scripts/analise_frente_documentacao.py
 
 # Frente 2 – Código-Fonte (a ser implementado)
-# python scripts/analise_frente_2.py
+# python scripts/analise_frente_sourcecode.py
 
 # Frente 3 – Estrutura do Projeto (a ser implementado)
 # python scripts/analise_frente_3.py
