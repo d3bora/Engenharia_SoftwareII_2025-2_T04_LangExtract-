@@ -51,7 +51,7 @@ Os scripts de cada frente estão localizados na pasta `/scripts`.
 python scripts/analise_frente_documentacao.py
 
 # Frente 2 – Código-Fonte (a ser implementado)
-# python scripts/analise_frente_sourcecode.py
+python scripts/analise_frente_sourcecode.py
 
 # Frente 3 – Estrutura do Projeto (a ser implementado)
 # python scripts/analise_frente_3.py
@@ -92,7 +92,7 @@ docs: atualiza instruções de execução no README
 ├── outputs/              # Resultados gerados pelas análises
 ├── scripts/              # Scripts de execução de cada frente
 │   ├── analise_frente_documentacao.py
-│   ├── analise_frente_2.py
+│   ├── analise_frente_sourcecode.py
 │   └── analise_frente_3.py
 ├── reports/              # Relatórios finais em formato .md e .pdf
 └── README.md             # Documento principal com instruções do projeto
