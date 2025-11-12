@@ -93,13 +93,13 @@ docs: atualiza instruções de execução no README
 ├── scripts/              # Scripts de execução de cada frente
 │   ├── analise_frente_documentacao.py
 │   ├── analise_frente_sourcecode.py
-│   └── analise_frente_3.py
+│   └── analise_frente_estruturadoprojeto.py
 ├── reports/              # Relatórios finais em formato .md e .pdf
 └── README.md             # Documento principal com instruções do projeto
 ```
-## 🔬 Análise da Frente 1: Documentação (README.md)
+## 🗒️ Análise da Frente 1: Documentação (README.md)
 
-**Responsável:** (Miguel Lucas Santana Freire)
+**Responsável:** Miguel Lucas Santana Freire
 
 ### 🎯 Objetivo
 Analisar a documentação textual do projeto (`README.md`) para identificar padrões de arquitetura.
@@ -151,6 +151,100 @@ Why LangExtract?
 ----------------------------------------
 
 ```
+## 🗂️ Análise da Frente 3: Estrutura do Projeto
+
+**Responsável:** João Antônio Sousa da Silva
+
+### 🎯 Objetivo
+
+Analisar a organização estrutural do projeto (LangExtract), identificando possíveis padrões arquiteturais com base na disposição dos diretórios principais e sua relação semântica.
+
+### 🧠 Modelo Utilizado
+
+Modelo: feature-extraction
+Base: bert-base-uncased
+
+### 💡 Por que este modelo?
+
+Escolhemos o modelo BERT-base (feature-extraction) por ser amplamente utilizado para representar textos curtos, como nomes de diretórios e módulos, em vetores semânticos de alta dimensionalidade.
+Esses vetores permitem visualizar relações de similaridade e agrupamentos lógicos, úteis para inferir padrões estruturais e estilos arquiteturais como camadas ou módulos funcionais.
+
+### ⚙️ Metodologia
+
+A análise foi conduzida em etapas:
+
+- **Clonagem do repositório original do LangExtract.**
+
+- **Listagem das pastas principais:**
+  
+```bash
+benchmarks, docs, examples, langextract, scripts, tests
+```
+
+- **Extração de embeddings dos nomes de cada pasta usando o modelo bert-base-uncased (modo feature-extraction).**
+
+- **Redução de dimensionalidade com o algoritmo t-SNE para projetar as representações em duas dimensões.**
+
+- **Geração de visualização gráfica dos agrupamentos.**
+
+- **Armazenamento dos resultados em resultados_frente3.txt e estrutura_projeto_frente3.png.**
+
+O script executado foi:
+
+```bash
+python scripts/analise_frente_estruturadoprojeto.py
+```
+
+### 📊 Resultado da Análise (Frente 3)
+
+A análise produziu as seguintes coordenadas 2D (t-SNE) para os módulos principais:
+
+```bash
+=== RELATÓRIO - FRENTE 3: Estrutura de Projeto ===
+
+Repositório: https://github.com/google/langextract
+Modelo: bert-base-uncased
+
+Pastas analisadas:
+ - benchmarks
+ - docs
+ - examples
+ - langextract
+ - scripts
+ - tests
+
+Coordenadas 2D geradas (t-SNE):
+
+benchmarks: (96.28, -24.08)
+docs: (11.33, -75.00)
+examples: (-63.22, -9.55)
+langextract: (-24.19, 81.64)
+scripts: (18.82, 9.05)
+tests: (74.39, 72.31)
+```
+
+### 📈 Visualização Gráfica
+
+A projeção t-SNE foi representada no gráfico abaixo, gerando o arquivo:
+
+estrutura_projeto_frente3.png
+
+### 🧩 Interpretação
+
+A projeção indica agrupamentos coerentes entre módulos do projeto:
+
+- langextract e tests aparecem próximos, sugerindo uma forte relação entre a implementação principal e a validação.
+
+- scripts e benchmarks se situam em uma camada de suporte, relacionados à execução e análise de desempenho.
+
+- examples e docs formam uma camada externa, mais voltada à documentação e exemplos de uso.
+
+Esses agrupamentos sugerem que o projeto segue uma arquitetura em camadas, com separação clara entre núcleo funcional, suporte e documentação — um indício de boa modularização e organização arquitetural.
+
+### ✅ Conclusão
+
+A análise estrutural do projeto LangExtract evidencia uma organização bem definida, na qual cada diretório cumpre uma função distinta dentro de um arranjo em camadas.
+Essa estrutura reforça a presença de boas práticas de engenharia de software e baixo acoplamento entre módulos, características de sistemas escaláveis e manuteníveis.
 
 ## 🧠 Observações Finais
 
