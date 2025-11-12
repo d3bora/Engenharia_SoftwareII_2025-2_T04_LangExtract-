@@ -227,7 +227,7 @@ tests: (74.39, 72.31)
 
 A projeção t-SNE foi representada no gráfico abaixo, gerando o arquivo:
 
-estrutura_projeto_frente3.png
+![Gráfico de Estrutura do Projeto](estrutura_projeto_frente3.png)
 
 ### 🧩 Interpretação
 
