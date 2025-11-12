@@ -151,6 +151,75 @@ Why LangExtract?
 ----------------------------------------
 
 ```
+
+-----
+
+## 💻 Análise da Frente 2: Código-Fonte (Code-Search)
+
+**Responsável:** Allex Lemos de Souza Pinheiro
+
+### 🎯 Objetivo
+
+Analisar o **código-fonte** (`.py`) do projeto para encontrar evidências de implementação dos padrões arquiteturais sugeridos pela análise da documentação (Frente 1).
+
+-----
+
+### 🧠 Modelo Utilizado
+
+**Modelo:** Análise Semântica de Código (via Embeddings)
+**Base:** `microsoft/codebert-base`
+
+### 💡 Por que este modelo?
+
+O CodeBERT foi escolhido por ser um modelo especializado, pré-treinado em milhões de linhas de código e em linguagem natural. Diferente de um classificador de texto, ele entende a **semântica do código**, permitindo-nos "perguntar" (em inglês) onde certos conceitos arquiteturais (como "plugins" ou "validação de schema") estão implementados no código Python.
+
+### ⚙️ Metodologia
+
+O processo foi focado em encontrar a **similaridade semântica** entre nossas *queries* de arquitetura e os arquivos de código-fonte.
+
+1.  O repositório foi clonado localmente.
+2.  Definimos uma série de "queries" (perguntas) baseadas nas hipóteses (ex: "LLM API client integration").
+3.  O script converteu cada *query* e cada arquivo `.py` do projeto em um **vetor numérico (embedding)** usando o CodeBERT.
+4.  Calculamos a **Similaridade de Cosseno** entre a query e todos os arquivos, ranqueando os 3 arquivos mais relevantes para cada pergunta.
+
+O script executado foi:
+
+```bash
+python analise_frente_codesource.py
+```
+
+Foram definidas 4 queries de arquitetura para a busca.
+
+### 📊 Resultado da Análise (Frente 2)
+
+A análise de similaridade indicou uma forte concentração de lógica arquitetural em arquivos `__init__.py` e na camada `core`, confirmando as suspeitas da Frente 1.
+
+```plaintext
+Query: 'LLM API client integration'
+------------------------------
+Arquivo: langextract\_compat\__init__.py | Similaridade: 0.9049
+Arquivo: langextract\providers\schemas\__init__.py | Similaridade: 0.9003
+Arquivo: langextract\core\__init__.py | Similaridade: 0.8924
+
+Query: 'schema validation using pydantic'
+------------------------------
+Arquivo: langextract\_compat\__init__.py | Similaridade: 0.9102
+Arquivo: langextract\providers\schemas\__init__.py | Similaridade: 0.9075
+Arquivo: langextract\tokenizer.py | Similaridade: 0.9019
+
+Query: 'text span finding algorithm'
+------------------------------
+Arquivo: langextract\_compat\__init__.py | Similaridade: 0.8746
+Arquivo: langextract\providers\schemas\__init__.py | Similaridade: 0.8667
+Arquivo: langextract\core\__init__.py | Similaridade: 0.8646
+
+Query: 'asynchronous request handling'
+------------------------------
+Arquivo: langextract\_compat\__init__.py | Similaridade: 0.8848
+Arquivo: langextract\providers\schemas\__init__.py | Similaridade: 0.8792
+Arquivo: langextract\tokenizer.py | Similaridade: 0.8726
+```
+
 ## 🗂️ Análise da Frente 3: Estrutura do Projeto
 
 **Responsável:** João Antônio Sousa da Silva
