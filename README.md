@@ -54,7 +54,7 @@ python scripts/analise_frente_documentacao.py
 python scripts/analise_frente_sourcecode.py
 
 # Frente 3 – Estrutura do Projeto (a ser implementado)
-# python scripts/analise_frente_3.py
+# python scripts/analise_frente_estruturadoprojeto.py
 
 ```
 
