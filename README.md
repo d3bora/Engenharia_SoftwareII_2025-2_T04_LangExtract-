@@ -57,39 +57,16 @@ python scripts/analise_frente_sourcecode.py
 # python scripts/analise_frente_estruturadoprojeto.py
 
 ```
-
-## 🌿 Fluxo de Trabalho (Git Branches)
-
-| Branch | Função |
-|--------|--------|
-| **main** | Branch principal, representa a versão final e estável. Nenhum commit direto é feito nela. |
-| **frente-x-nome** | Branches individuais para cada frente ou tarefa (ex: `frente-1-documentacao`). |
-
----
-
-## ⚙️ Padrão de Commits
-
-Os commits devem seguir o formato:
-
-```bash
-tipo: descrição breve
-```
-Exemplo:
-```bash
-feat: adiciona análise da frente 1 de documentação
-fix: corrige erro de importação no script de análise
-docs: atualiza instruções de execução no README
-```
-
-
 ---
 
 ## 🧩 Estrutura de Pastas
 
 ```bash
 .
-├── data/                 # Dados brutos e processados
-├── outputs/              # Resultados gerados pelas análises
+├── docs/              # Analises manuais
+│   ├── analise_manual_estruturado.ipynb
+│   ├── analise_manual_codesource.ipynb
+│   ├── analise_manual_documentacao.ipynb
 ├── scripts/              # Scripts de execução de cada frente
 │   ├── analise_frente_documentacao.py
 │   ├── analise_frente_sourcecode.py
