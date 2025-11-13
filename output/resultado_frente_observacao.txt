@@ -1,0 +1,7 @@
+RESULTADO DA ANÁLISE (DOCUMENTAÇÃO)
+Modelo Utilizado: facebook/bart-large-mnli
+  plugin architecture            | 60.83%
+  layered architecture           | 19.85%
+  component-based system         | 11.56%
+  pipe-and-filter architecture   | 04.23%
+  MVC architecture               | 03.53%
