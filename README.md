@@ -310,6 +310,69 @@ A projeção indica agrupamentos coerentes entre módulos do projeto:
 
 Esses agrupamentos sugerem que o projeto segue uma arquitetura em camadas, com separação clara entre núcleo funcional, suporte e documentação — um indício de boa modularização e organização arquitetural.
 
+---
+
+## 🔬 Síntese e Conclusão da Atividade
+
+As três frentes de análise (Documentação, Código-Fonte e Estrutura) nos permitiram triangular e validar as características arquiteturais do projeto `google/langextract`. Esta seção consolida os achados da **Análise Manual** (nosso "gabarito", baseado nos notebooks `analise_manual_*.ipynb`) e os compara com os resultados dos modelos de IA.
+
+### 🕵️ Análise Manual (Ground Truth)
+
+Uma inspeção qualitativa da documentação e do código-fonte revelou quatro padrões principais que definem a arquitetura do projeto:
+
+1.  **Padrão Facade (GoF):**
+    * **Evidência:** É o padrão central. O `Quick Start` (`README.md`) e o arquivo `langextract/__init__.py` expõem a função `lx.extract()`.
+    * **Função:** Esta função é uma "fachada" clássica que esconde toda a complexidade do subsistema (chunking, paralelismo, chamadas de LLM, validação de schema) em uma única chamada.
+
+2.  **Arquitetura de Plugins (Registry):**
+    * **Evidência:** A seção `Adding Custom Model Providers` (`README.md`) e a existência da pasta `langextract/providers/` (`código-fonte`).
+    * **Função:** Permite que o sistema seja estendido com novos provedores de LLM (Ollama, OpenAI, Gemini) sem alterar o núcleo (`core`) do sistema.
+
+3.  **Padrão Strategy + Factory (GoF):**
+    * **Evidência:** Inferido do `README.md` (ao passar `model_id`) e confirmado no código-fonte.
+    * **Função:** O sistema usa uma *Factory* para instanciar o provedor de LLM correto (a *Strategy*) com base na configuração passada para a *Facade*.
+
+4.  **Arquitetura em Camadas:**
+    * **Evidência:** A própria estrutura de pastas e a separação lógica no código (`analise_manual_codesource.ipynb`).
+    * **Função:** O projeto separa claramente suas responsabilidades:
+        * **Camada de Domínio/Core:** `langextract/core/` (lógica de extração).
+        * **Camada de Infra/Provedores:** `langextract/providers/` (comunicação com LLMs externos).
+        * **Camada de Apresentação/Suporte:** `docs/`, `examples/`, `benchmarks/`.
+
+---
+
+### 📊 Comparativo: Análise Manual vs. Análise por IA
+
+Com o "gabarito" da análise manual em mãos, podemos agora comparar o desempenho dos três modelos de IA.
+
+| Padrão Identificado | Análise Manual (Gabarito) | AI - Frente 1 (Docs)<br>`facebook/bart-large-mnli` | AI - Frente 2 (Código)<br>`microsoft/codebert-base` | AI - Frente 3 (Estrutura)<br>`bert-base-uncased` |
+| :--- | :---: | :--- | :--- | :--- |
+| **Arquitetura em Camadas** | **Sim** | **Confirmado** (19.85%) | **Confirmado** (Localizou `core` vs `providers`) | **Confirmado** (Visualizou a separação t-SNE)<br> ![Visualização t-SNE](./outputs/estrutura_projeto_frente3.png) |
+| **Arquitetura de Plugins** | **Sim** | **Confirmado** (60.83%) | **Confirmado** (Localizou `LLM API integration`) | Não Aplicável |
+| **Padrão Facade** | **Sim** | **Falha (Falso Negativo)** | **Confirmado** (Localizou `__init__.py` como central) | Não Aplicável |
+| **Padrão Strategy/Factory**| **Sim** | **Falha (Falso Negativo)** | **Confirmado** (Localizou `schema validation` e `LLM API...`) | Não Aplicável |
+
+---
+
+### 🏆 Avaliação de Efetividade dos Modelos
+
+A análise da tabela mostra que a efetividade não está em um único modelo, mas na **triangulação das três frentes**. Cada modelo teve um papel crucial.
+
+1.  **Frente 1 (`facebook/bart-large-mnli`): O "Desbravador"**
+    * **Efetividade:** Foi o mais rápido para **validar as hipóteses óbvias**. Ele confirmou "Plugin" e "Camadas" (que estavam explícitos no `README`) em segundos.
+    * **Limitação (e Veredito):** Foi **ineficaz** para descobrir padrões *implícitos*. Ele foi "cego" para os padrões **Facade** e **Strategy** porque eles não estavam nos rótulos que fornecemos (`rotulos_candidatos`). Isso prova que modelos *Zero-Shot* são bons para confirmar o que se sabe, mas ruins para descobrir o que não se sabe.
+
+2.  **Frente 3 (`bert-base-uncased`): O "Arquiteto"**
+    * **Efetividade:** Foi altamente efetivo para **confirmar a visão macro** (alto nível) da **Arquitetura em Camadas**. A análise t-SNE provou visualmente que a separação de responsabilidades (ex: `langextract` e `tests` vs. `docs` e `examples`) é uma decisão de design intencional.
+    * **Limitação (e Veredito):** É um modelo de propósito específico. Não serve para identificar padrões de design (como Facade), apenas padrões estruturais.
+
+3.  **Frente 2 (`microsoft/codebert-base`): O "Auditor" (O Mais Efetivo)**
+    * **Efetividade:** Este foi, sem dúvida, **o modelo mais efetivo e robusto da análise**.
+    * **Justificativa:** Diferente da Frente 1 (que só lia texto) e da Frente 3 (que só via nomes de pastas), o `codebert-base` foi o único que **entendeu a semântica do código-fonte**.
+        * Ele não só confirmou as "Camadas" e "Plugins" (achando `core`, `providers` e `LLM API integration`).
+        * Ele foi o único modelo de IA que **encontrou evidências** dos padrões que a Frente 1 perdeu: **Facade** (ao apontar a alta relevância do `__init__.py`) e **Strategy/Factory** (ao apontar `schema validation` e a integração de APIs).
+
+**Veredito Final:** O **`microsoft/codebert-base`** (Frente 2) foi o modelo mais efetivo, pois foi capaz de auditar e localizar a implementação real dos padrões no código, validando as suspeitas da Frente 1 e da Análise Manual, e descobrindo padrões que os outros modelos não conseguiram.
 ### ✅ Conclusão
 
 A análise estrutural do projeto LangExtract evidencia uma organização bem definida, na qual cada diretório cumpre uma função distinta dentro de um arranjo em camadas.
