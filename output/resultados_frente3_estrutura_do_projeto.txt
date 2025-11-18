@@ -1,0 +1,21 @@
+=== RELATÓRIO - FRENTE 3: Estrutura de Projeto ===
+
+Repositório: https://github.com/google/langextract.git
+Modelo: bert-base-uncased
+
+Pastas analisadas:
+ - benchmarks
+ - docs
+ - examples
+ - langextract
+ - scripts
+ - tests
+
+Coordenadas 2D geradas (t-SNE):
+
+benchmarks: (96.28, -24.08)
+docs: (11.33, -75.00)
+examples: (-63.22, -9.55)
+langextract: (-24.19, 81.64)
+scripts: (18.82, 9.05)
+tests: (74.39, 72.31)
