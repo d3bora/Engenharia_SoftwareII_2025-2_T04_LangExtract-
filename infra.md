@@ -2,6 +2,43 @@
 
 Este documento descreve detalhadamente toda a infraestrutura utilizada pela equipe para executar as análises das Frentes do projeto. 
 
+---
+
+## 💻 Ambiente da Frente 1 – Análise de Documentação
+
+A frente 1 (Classificação Zero-Shot do README) foi executada localmente, utilizando a IDE **PyCharm** no sistema operacional Windows 11.
+
+As especificações do hardware utilizado são:
+
+### 🔹 Processamento
+- **CPU:** Intel Core i5-12450H
+- **GPU:** NVIDIA GeForce RTX 2050 4 GB GDDR6
+
+### 🔹 Memória e Armazenamento
+- **RAM Total:** 16.0 GB DDR5-4800MHz
+- **Armazenamento:** 512 GB SSD M.2
+
+### 🔹 Sistema Operacional
+- **Windows 11 Home**
+
+### 🔹 Versão do Python
+- **Python 3.13**
+
+### 🔹 Bibliotecas Principais Utilizadas
+- `transformers` (Pipeline de Zero-Shot Classification)
+- `torch` (Backend para execução do modelo)
+- `hf_xet` (Gerenciamento de arquivos grandes no Hugging Face)
+
+## 📌 Observações Sobre a Execução Local (Frente 1)
+
+- **Uso de GPU (Aceleração de Hardware):** Este ambiente contou com uma placa de vídeo dedicada (**RTX 2050**). Isso permitiu que o `torch` realizasse a inferência do modelo `facebook/bart-large-mnli` com extrema rapidez, aproveitando os núcleos tensores da GPU.
+- **Consumo de Memória:** O modelo utilizado é leve, consumindo pouco da VRAM da placa de vídeo (menos de 2GB), deixando o restante do sistema fluido durante a execução.
+- **Ambiente de Desenvolvimento:** O uso do **PyCharm** facilitou o gerenciamento das dependências e a visualização dos outputs no terminal integrado.
+
+## ✔️ Conclusão (Frente 1)
+
+A infraestrutura utilizada foi superdimensionada para a tarefa, garantindo uma execução instantânea. A presença da GPU dedicada (RTX 2050) oferece robustez caso o grupo decida testar modelos maiores no futuro, eliminando gargalos de processamento que poderiam ocorrer em CPUs convencionais.
+
 ## 💻 Ambiente da Frente 2 – Análise de Código Fonte
 
 A frente 2 (Busca Semântica no Código com CodeBERT) foi executada localmente, usando a IDE **VSCode** no sistema operacional Linux.
