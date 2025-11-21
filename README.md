@@ -352,7 +352,8 @@ A análise da tabela mostra que a efetividade não está em um único modelo, ma
 **Veredito Final:** O **`microsoft/codebert-base`** (Frente 2) foi o modelo mais efetivo, pois foi capaz de auditar e localizar a implementação real dos padrões no código, validando as suspeitas da Frente 1 e da Análise Manual, e descobrindo padrões que os outros modelos não conseguiram.
 ### ✅ Conclusão
 
-A análise estrutural do projeto LangExtract evidencia uma organização bem definida, na qual cada diretório cumpre uma função distinta dentro de um arranjo em camadas.
+A análise estrutural do projeto LangExtract evidencia uma organização bem definida, na qual cada diretório cumpre uma função distinta dentro de um arranjo em camadas. Diante disso,
+projeto google/langextract usa, de fato, uma arquitetura robusta baseada em Camadas, Plugins, Facade e Strategy.
 Essa estrutura reforça a presença de boas práticas de engenharia de software e baixo acoplamento entre módulos, características de sistemas escaláveis e manuteníveis.
 
 ## 🧠 Observações Finais
